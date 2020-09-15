@@ -2,6 +2,8 @@
 
 Alacrity Data Encryption
 
+This application was built using Node v14.10.0.
+
 In order to run:
 
 1. Clone the project to your local file system using the command: git clone https://github.com/ramikamaldev/alacrity.git
