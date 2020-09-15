@@ -1,5 +1,8 @@
 import { Schema, model } from "mongoose";
 
+/**
+ * This file creates the schema for the alacrity-encrypted-data collection.
+ */
 const alacrity_data_schema: Schema = new Schema(
     {
         "document_id": { type: String, required: true },

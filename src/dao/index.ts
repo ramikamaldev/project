@@ -1,2 +1,2 @@
 export { create_or_update_encryption_key, retrieve_encryption_key } from './dao-models/mongo-dao/dao-alacrity-encryption-key-coll'
-export { create_or_update_alacrity_entry, retrieve_encrypted_document } from './dao-models/mongo-dao/dao-alacrity-data-coll'
+export { create_or_update_alacrity_entry, retrieve_encrypted_documents } from './dao-models/mongo-dao/dao-alacrity-data-coll'

@@ -6,7 +6,10 @@ import * as path from "path";
 
 import { connect_to_alacrity_mongodb } from "./common-functions/mongo-connect";
 import { create_and_return_alacrity_router } from "./routes/alacrity-routes";
-
+import {create_and_return_promise} from "./common-functions/utility-functions"
+/**
+ * The Alacrity_App class is the main class of the application. It handles instantiating the application infrastructure.
+ */
 class Alacrity_App {
     public server: express.Application;
     constructor() {
@@ -17,20 +20,29 @@ class Alacrity_App {
         this.instantiate_application_infrastructure();
     }
 
+    /**
+     * instantiate_application_infrastructure - This method instantiates the middleware, as well as launches the express server.
+     */
     public async instantiate_application_infrastructure() {
         let result = connect_to_alacrity_mongodb()
             .then(async function (result) {
-                // console.log(configurApp)
                 await alacrity_app.instantiate_middleware();
                 alacrity_app.start_express();
             })
             .catch(function (error) {
-                //TODO: If the promise was rejected, throw the error and terminate.
                 console.log(error);
             });
         return;
     }
 
+    /**
+     * instantiate_middleware - This method instantiates the middleware for the express server, 
+     * by loading helmet (adding security headers),
+     * bodyParser - to handle incoming request bodies,
+     * instaniating the express-router, which contains the express routers,
+     * and a test endpoint.
+     * It wraps the function in a promise to allow for async/await functionality in the calling method.
+     */
     public async instantiate_middleware() {
         let promise_function = function (resolve, reject) {
             this.server.use(helmet());
@@ -45,6 +57,9 @@ class Alacrity_App {
         this.create_promise(promise_function);
     }
 
+    /**
+     * start_express - This method instantiates the express server at the given DOTENV port - 5050.
+     */
     public async start_express() {
         this.server.listen(process.env.PORT);
         console.log(
@@ -52,12 +67,19 @@ class Alacrity_App {
         );
     }
 
+    /**
+     * create_promise - This method returns a promise for the given promise_function, easing the binding of the this object.
+     * @param promise_function 
+     */
     public async create_promise(promise_function) {
         return new Promise(promise_function);
     }
 }
 
 let alacrity_app: Alacrity_App;
+/**
+ * create_singleton_application - This function is of a singelton design pattern, allowing the application to be instantiated.
+ */
 function create_singleton_application() {
     if (!alacrity_app) {
         console.log("Instantiating Singleton Alacrity Application");

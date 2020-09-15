@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+/**
+ *connect_to_alacrity_mongodb - this function connects to MongoDB, utilsing the mongoose module.
+ */
 export function connect_to_alacrity_mongodb() {
    return new Promise(async function (resolve, reject) { 
        console.log("Awaiting MongoDB connection")

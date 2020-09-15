@@ -2,6 +2,10 @@ import { alacrity_encryption_key_model } from "../mongo-schemas/alacrity-encrypt
 import { check_if_collection_exists_and_execute } from "../../../common-functions/utility-functions"
 
 /**
+ * create_or_update_encryption_key - This function utilises the create and findOneAndUpdate functionality of MongoDB.
+ * It was implemented utilising both to handle the corner case of the collection not existing in the database, in this case the create functionality will create the collection, and insert in the document.
+ * However, in all other circumstances the findOneAndUpdate functionality with upsert (insert if not exists), will suffice.
+ * It passes the two functions to the check_if_collection_exists_and_execute - which determines whether the collection exists.
  * 
  * @param encryption_json 
  */
@@ -29,11 +33,15 @@ export async function create_or_update_encryption_key(id, encryption_key) {
     });
 }
 
+/**
+ * retrieve_encryption_key - this function retrieves the document containing the encryption_key from the database, dependent on the id passed by the calling function.
+ * @param id 
+ */
 export function retrieve_encryption_key(id) {
     return new Promise(async function (resolve, reject) {
         try {
             let encryption_key = await alacrity_encryption_key_model.find({ document_id: id }).exec();
-            console.log(encryption_key)
+            console.log("Retrieved encryption_key from database");
             return resolve(encryption_key);
         }
         catch (err) {
