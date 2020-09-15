@@ -10,7 +10,10 @@ This application was built using Node v14.10.0.
     ```bash
     git clone https://github.com/ramikamaldev/alacrity.git
     ```
-2. Install the required node packages using the command: npm install
+2. Install the required node packages using the command: 
+    ```bash
+    npm install
+    ```
 3. In a terminal transpile by running the Grun Task Runner using the command:
    ```bash
    grunt --env=dev
