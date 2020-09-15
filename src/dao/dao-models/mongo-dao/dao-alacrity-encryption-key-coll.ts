@@ -3,21 +3,20 @@ import { check_if_collection_exists_and_execute } from "../../../common-function
 
 /**
  * 
- * @param encyrption_json 
+ * @param encryption_json 
  */
-export function create_or_update_encryption_key(encryption_json) {
-    let create_encryption_key_document = function (resolve, reject, encryption_json) {
-        alacrity_encryption_key_model.create(encryption_json).then(
+export async function create_or_update_encryption_key(id, encryption_key) {
+    let create_encryption_key_document = function (resolve, reject, encryption_key) {
+        alacrity_encryption_key_model.create({ document_id: id, encryption_key }).then(
             function (response) {
                 return resolve(response);
             }).catch(
                 function (err) {
-                    console.log("rejecting");
                     return reject(err);
                 })
     };
-    let update_encryption_key_document = function (resolve, reject, consignment_order) {
-        alacrity_encryption_key_model.updateOne({ document_id: encryption_json["id"] }, { $set: { encryption_json } }, { upsert: true }).then(
+    let update_encryption_key_document = function (resolve, reject, encryption_key) {
+        alacrity_encryption_key_model.findOneAndUpdate({ document_id: id }, { $set: { encryption_key } }, { upsert: true }).then(
             function (response) {
                 return resolve(response);
             }).catch(
@@ -26,10 +25,20 @@ export function create_or_update_encryption_key(encryption_json) {
                 })
     }
     return new Promise(function (resolve, reject) {
-        check_if_collection_exists_and_execute(resolve, reject, alacrity_encryption_key_model, update_encryption_key_document, encryption_json, create_encryption_key_document);
-    })
+        check_if_collection_exists_and_execute(resolve, reject, alacrity_encryption_key_model, update_encryption_key_document, encryption_key, create_encryption_key_document);
+    });
 }
 
-export function retrieve_encryption_key() {
-
+export function retrieve_encryption_key(id) {
+    return new Promise(async function (resolve, reject) {
+        try {
+            let encryption_key = await alacrity_encryption_key_model.find({ document_id: id }).exec();
+            console.log(encryption_key)
+            return resolve(encryption_key);
+        }
+        catch (err) {
+            console.log(err)
+            return reject(err);
+        }
+    });
 }

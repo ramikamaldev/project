@@ -12,6 +12,5 @@ export function connect_to_alacrity_mongodb() {
             console.log(mongoose_connection_err);
             return reject("Failed to to connect to MongoDB through Mongoose!");
         });
-
-    })
+    });
 }
