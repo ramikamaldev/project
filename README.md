@@ -1,6 +1,6 @@
-# Alacrity
+# Project Example
 
-Alacrity Data Encryption
+Project Data Encryption
 
 This application was built using Node v14.10.0.
 
@@ -8,7 +8,7 @@ This application was built using Node v14.10.0.
 
 1. Clone the project to your local file system using the command:
     ```bash
-    git clone https://github.com/ramikamaldev/alacrity.git
+    git clone https://github.com/ramikamaldev/project.git
     ```
 2. Install the required node packages using the command: 
     ```bash
