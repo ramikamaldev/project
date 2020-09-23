@@ -1,11 +1,11 @@
 {
-  "name": "alacrity",
+  "name": "project",
   "version": "0.0.1",
-  "description": "Alacrity Techinical Interview",
+  "description": "project Techinical Interview",
   "main": "app.js",
   "scripts": {
-    "test": "nodemon ./bin/alacrity-app.js",
-    "start": "node ./bin/alacrity-app.js"
+    "test": "nodemon ./bin/project-app.js",
+    "start": "node ./bin/project-app.js"
   },
   "dependencies": {
     
@@ -39,17 +39,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ramikamaldev/alacrity.git"
+    "url": "git+https://github.com/ramikamaldev/project.git"
   },
   "keywords": [
     "parser",
-    "alacrity",
+    "project",
     "encryption"
   ],
   "author": "Rami Kamal",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ramikamaldev/alacrity/issues"
+    "url": "https://github.com/ramikamaldev/project/issues"
   },
-  "homepage": "https://github.com/ramikamaldev/alacrity#readme"
+  "homepage": "https://github.com/ramikamaldev/project#readme"
 }

@@ -4,13 +4,13 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import * as path from "path";
 
-import { connect_to_alacrity_mongodb } from "./common-functions/mongo-connect";
-import { create_and_return_alacrity_router } from "./routes/alacrity-routes";
+import { connect_to_project_mongodb } from "./common-functions/mongo-connect";
+import { create_and_return_project_router } from "./routes/project-routes";
 import {create_and_return_promise} from "./common-functions/utility-functions"
 /**
- * The Alacrity_App class is the main class of the application. It handles instantiating the application infrastructure.
+ * The project_App class is the main class of the application. It handles instantiating the application infrastructure.
  */
-class Alacrity_App {
+class project_App {
     public server: express.Application;
     constructor() {
         this.server = express();
@@ -24,10 +24,10 @@ class Alacrity_App {
      * instantiate_application_infrastructure - This method instantiates the middleware, as well as launches the express server.
      */
     public async instantiate_application_infrastructure() {
-        let result = connect_to_alacrity_mongodb()
+        let result = connect_to_project_mongodb()
             .then(async function (result) {
-                await alacrity_app.instantiate_middleware();
-                alacrity_app.start_express();
+                await project_app.instantiate_middleware();
+                project_app.start_express();
             })
             .catch(function (error) {
                 console.log(error);
@@ -47,8 +47,8 @@ class Alacrity_App {
         let promise_function = function (resolve, reject) {
             this.server.use(helmet());
             this.server.use(bodyParser.json());
-            let alacrity_router = create_and_return_alacrity_router();
-            this.server.use(alacrity_router);
+            let project_router = create_and_return_project_router();
+            this.server.use(project_router);
             this.server.get("/test-server-routes", function (req, res) {
                 res.send("Server is running correctly.");
             });
@@ -63,7 +63,7 @@ class Alacrity_App {
     public async start_express() {
         this.server.listen(process.env.PORT);
         console.log(
-            `Alacrity Server Started! Listening on port: ${process.env.PORT}`
+            `project Server Started! Listening on port: ${process.env.PORT}`
         );
     }
 
@@ -76,14 +76,14 @@ class Alacrity_App {
     }
 }
 
-let alacrity_app: Alacrity_App;
+let project_app: project_App;
 /**
  * create_singleton_application - This function is of a singelton design pattern, allowing the application to be instantiated.
  */
 function create_singleton_application() {
-    if (!alacrity_app) {
-        console.log("Instantiating Singleton Alacrity Application");
-        alacrity_app = new Alacrity_App();
+    if (!project_app) {
+        console.log("Instantiating Singleton project Application");
+        project_app = new project_App();
         return 0;
     } else {
         return 1;

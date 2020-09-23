@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
 /**
- *connect_to_alacrity_mongodb - this function connects to MongoDB, utilsing the mongoose module.
+ *connect_to_project_mongodb - this function connects to MongoDB, utilsing the mongoose module.
  */
-export function connect_to_alacrity_mongodb() {
+export function connect_to_project_mongodb() {
    return new Promise(async function (resolve, reject) { 
        console.log("Awaiting MongoDB connection")
-        await mongoose.connect(process.env.ALACRITY_MONGODB_DEV as string, { useNewUrlParser: true, useUnifiedTopology: true}, function (mongoose_connection_err) {
+        await mongoose.connect(process.env.project_MONGODB_DEV as string, { useNewUrlParser: true, useUnifiedTopology: true}, function (mongoose_connection_err) {
             let mongoose_api = mongoose.connection;
             if (!mongoose_connection_err) {
                 console.log("Connected to MongoDB through Mongoose!");

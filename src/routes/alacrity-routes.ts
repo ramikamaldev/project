@@ -1,11 +1,11 @@
 import express from "express";
-import { create_or_update_alacrity_entry, create_or_update_encryption_key, retrieve_encryption_key, retrieve_encrypted_documents } from "../dao";
-import { store_in_database, encrypt_alacrity_data, decrypt_alacrity_data, extract_data_with_matching_encryption_key_and_decrypt } from "../alacrity-functionality/alacrity-data-func"
+import { create_or_update_project_entry, create_or_update_encryption_key, retrieve_encryption_key, retrieve_encrypted_documents } from "../dao";
+import { store_in_database, encrypt_project_data, decrypt_project_data, extract_data_with_matching_encryption_key_and_decrypt } from "../project-functionality/project-data-func"
 
 /**
- * create_and_return_alacrity_router - This function creates and returns an express router with the given endpoints and their associated functionality.
+ * create_and_return_project_router - This function creates and returns an express router with the given endpoints and their associated functionality.
  */
-export function create_and_return_alacrity_router() {
+export function create_and_return_project_router() {
     let router = express.Router();
     router.use("/storing-endpoint", store_data);
     router.use("/retrieval-endpoint", retrieve_data);
@@ -34,7 +34,7 @@ async function store_data(req: express.Request, res: express.Response) {
         let id = req.body.id;
         let unencrypted_json = req.body.value;
         let encryption_key = req.body.encryption_key;
-        let encrypted_json = encrypt_alacrity_data(unencrypted_json, encryption_key);
+        let encrypted_json = encrypt_project_data(unencrypted_json, encryption_key);
         await store_in_database(id, encrypted_json, encryption_key);
         console.log("Ending /storing-endpoint call");
         return res.status(200).send("Succesfully stored data in database.");

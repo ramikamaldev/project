@@ -1,16 +1,16 @@
 /**
-* This file contains most of the alacrity functionality. 
+* This file contains most of the project functionality. 
 */
 
-import { create_or_update_alacrity_entry, create_or_update_encryption_key, retrieve_encryption_key, retrieve_encrypted_documents } from "../dao"
+import { create_or_update_project_entry, create_or_update_encryption_key, retrieve_encryption_key, retrieve_encrypted_documents } from "../dao"
 import { AES } from 'crypto-js';
 
 /**
- * decrypt_alacrity_data - this function takes in the encrypted_json_parameter object supplied by the calling function, and utilises the encryption_key to decrypt the encrypted_json.
+ * decrypt_project_data - this function takes in the encrypted_json_parameter object supplied by the calling function, and utilises the encryption_key to decrypt the encrypted_json.
  * @param encrypted_json_param 
  * @param encryption_key 
  */
-export function decrypt_alacrity_data(encrypted_json_param: any, encryption_key: string) {
+export function decrypt_project_data(encrypted_json_param: any, encryption_key: string) {
     let decrypted_json = {};
     decrypted_json = { value: encrypted_json_param.value, document_id: encrypted_json_param.document_id };
     for (const key in encrypted_json_param["value"]) {
@@ -24,11 +24,11 @@ export function decrypt_alacrity_data(encrypted_json_param: any, encryption_key:
 }
 
 /**
- * encrypt_alacrity_data - this function utilises AES to encrypt the data, with the key passed by the user.
+ * encrypt_project_data - this function utilises AES to encrypt the data, with the key passed by the user.
  * @param unencrypted_json 
  * @param encryption_key 
  */
-export function encrypt_alacrity_data(unencrypted_json: Object, encryption_key: string) {
+export function encrypt_project_data(unencrypted_json: Object, encryption_key: string) {
     let encrypted_json = {};
     Object.assign(encrypted_json, unencrypted_json);
     for (const key in unencrypted_json) {
@@ -42,13 +42,13 @@ export function encrypt_alacrity_data(unencrypted_json: Object, encryption_key: 
 }
 
 /**
- * store_in_database - this function stores the alacrity_data and encryption_key in to their respective collections.
+ * store_in_database - this function stores the project_data and encryption_key in to their respective collections.
  */
 export function store_in_database(id, encrypted_json, encryption_key) {
     return new Promise(async function (resolve, reject) {
         try {
-            await create_or_update_alacrity_entry(id, encrypted_json);
-            console.log("Stored alacrity_data in database.");
+            await create_or_update_project_entry(id, encrypted_json);
+            console.log("Stored project_data in database.");
             await create_or_update_encryption_key(id, encryption_key);
             console.log("Stored encryption_key in database.");
             return resolve(true);
@@ -91,7 +91,7 @@ export function extract_data_with_matching_encryption_key_and_decrypt(encryption
         encryption_key_loop: for (let j = 0; j < stored_encryption_keys.length; j++) {
             if (encrypted_jsons_array[i]["document_id"] === stored_encryption_keys[j]["document_id"]) {
                 if (encryption_key === stored_encryption_keys[j]["encryption_key"]) {
-                    let decrypted_json = decrypt_alacrity_data(encrypted_jsons_array[i], encryption_key);
+                    let decrypted_json = decrypt_project_data(encrypted_jsons_array[i], encryption_key);
                     decrypted_jsons_array.push(decrypted_json);
                     break encryption_key_loop;
                 }
